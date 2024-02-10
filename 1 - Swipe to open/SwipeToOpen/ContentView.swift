@@ -11,10 +11,12 @@ struct ContentView: View {
     var body: some View {
         VStack {
             Spacer()
-            Button("Animate", action: { isAnimating.toggle() })
             content
                 .offset(y: isAnimating ? -10 : 0)
                 .animation(.bouncy(extraBounce: 0.25), value: isAnimating)
+                .padding(10)
+                .background(.red)
+                .onTapGesture { isAnimating.toggle() }
             Spacer()
         }
         .frame(maxWidth: .infinity)
