@@ -5,10 +5,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State private var isAnimating = false
+    
     var body: some View {
         VStack {
             Spacer()
+            Button("Animate", action: { isAnimating.toggle() })
             content
+                .offset(y: isAnimating ? -10 : 0)
+                .animation(.bouncy(extraBounce: 0.25), value: isAnimating)
             Spacer()
         }
         .frame(maxWidth: .infinity)
