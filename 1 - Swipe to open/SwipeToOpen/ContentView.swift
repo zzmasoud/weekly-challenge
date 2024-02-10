@@ -7,12 +7,31 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Spacer()
+            content
+            Spacer()
         }
-        .padding()
+        .frame(maxWidth: .infinity)
+        .background(.gray)
+    }
+    
+    private var content: some View {
+        VStack {
+            text
+            indicator
+        }
+    }
+    
+    private var text: some View {
+        Text("Swipe to open")
+            .font(.subheadline)
+            .foregroundColor(.white)
+    }
+    
+    private var indicator: some View {
+        RoundedRectangle(cornerRadius: 50)
+            .fill(.white)
+            .frame(width: 150, height: 5)
     }
 }
 
