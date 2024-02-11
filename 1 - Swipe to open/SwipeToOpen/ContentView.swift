@@ -43,6 +43,7 @@ struct ContentView: View {
             }, keyframes: { value in
                 KeyframeTrack {
                     CubicKeyframe(-10, duration: 0.5)
+                    CubicKeyframe(0, duration: 1.5)
                 }
             })
     }
