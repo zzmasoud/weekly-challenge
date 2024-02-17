@@ -6,26 +6,39 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var isAnimating = false
-    @State private var indicatorVOffset: Double = 0
-    
-    @State private var textIsAnimating = false
-    @State private var textAnimation = TextAnimation()
-    
-    struct TextAnimation {
-        var verticalOffset: Double = 0
-        var opacity: Double = 0
+    struct Animation {
+        var isAnimating: Bool = false
+        private let duration: TimeInterval = 1.5
+        var indicator = Indicator()
+        var text = Text()
+        
+        var textDuration: TimeInterval { duration * 3/10 }
+        var indicatorStartDuration: TimeInterval { textDuration }
+        var indicatorEndDuration: TimeInterval { duration }
+        
+        struct Indicator {
+            var verticalOffset: Double = 0
+            var verticalOffsetDelta: Double = 10
+            var startDuration: TimeInterval = 1
+            var endDuration: TimeInterval = 0.5
+        }
+
+        struct Text {
+            var verticalOffset: Double = 0
+            var verticalOffsetDelta: Double = 20
+            var opacity: Double = 0
+        }
     }
     
+    @State var animation = Animation()
+        
     var body: some View {
         return VStack {
             Spacer()
             content
                 .padding(10)
-                .background(.red)
-                .onTapGesture { 
-                    isAnimating.toggle()
-                    textIsAnimating.toggle()
+                .onTapGesture {
+                    animation.isAnimating.toggle()
                 }
             Spacer()
         }
@@ -45,20 +58,21 @@ struct ContentView: View {
             .font(.subheadline)
             .foregroundColor(.white)
             .keyframeAnimator(
-                initialValue: textAnimation,
-                trigger: textIsAnimating,
-                content: { view, value in
+                initialValue: animation.text,
+                trigger: animation.isAnimating,
+                content: { view, animation in
                     view
-                        .offset(y: value.verticalOffset)
-                        .opacity(value.opacity)
+                        .offset(y: animation.verticalOffset)
+                        .opacity(animation.opacity)
                 },
-                keyframes: { value in
+                keyframes: { config in
                     KeyframeTrack(\.verticalOffset) {
-                        CubicKeyframe(-15, duration: 0.5)
-                        CubicKeyframe(-20, duration: 0.5)
+                        CubicKeyframe(-config.verticalOffsetDelta * 3/4, duration: 0.5)
+                        CubicKeyframe(-config.verticalOffsetDelta, duration: 0.5)
                     }
                     KeyframeTrack(\.opacity) {
-                        CubicKeyframe(1, duration: 0.5)
+                        CubicKeyframe(0.5, duration: animation.textDuration)
+                        CubicKeyframe(1, duration: animation.textDuration)
                     }
                 }
             )
@@ -69,15 +83,15 @@ struct ContentView: View {
             .fill(.white)
             .frame(width: 150, height: 5)
             .keyframeAnimator(
-                initialValue: indicatorVOffset,
-                trigger: isAnimating,
-                content: { view, value in
-                    view.offset(y: value)
+                initialValue: animation.indicator,
+                trigger: animation.isAnimating,
+                content: { view, animation in
+                    view.offset(y: animation.verticalOffset)
                 },
-                keyframes: { value in
-                    KeyframeTrack {
-                    CubicKeyframe(-10, duration: 0.5)
-                    CubicKeyframe(0, duration: 1.5)
+                keyframes: { config in
+                    KeyframeTrack(\.verticalOffset) {
+                        CubicKeyframe(-config.verticalOffsetDelta, duration: animation.indicatorStartDuration)
+                        CubicKeyframe(0, duration: animation.indicatorEndDuration)
                 }
             })
     }
