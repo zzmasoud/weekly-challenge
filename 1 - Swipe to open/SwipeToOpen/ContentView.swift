@@ -114,6 +114,8 @@ struct ContentView: View {
                     KeyframeTrack(\.opacity) {
                         CubicKeyframe(0.5, duration: animation.textDuration)
                         CubicKeyframe(1, duration: animation.textDuration)
+                        CubicKeyframe(1, duration: animation.textDuration * 4)
+                        CubicKeyframe(0, duration: animation.textDuration)
                     }
                 }
             )
