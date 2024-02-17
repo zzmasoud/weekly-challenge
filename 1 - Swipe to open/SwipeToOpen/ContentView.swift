@@ -6,6 +6,7 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State private var isAnimating = false
     @State private var indicatorVOffset: Double = 0
     
     var body: some View {
@@ -14,7 +15,7 @@ struct ContentView: View {
             content
                 .padding(10)
                 .background(.red)
-                .onTapGesture { indicatorVOffset = -10 }
+                .onTapGesture { isAnimating.toggle() }
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -38,10 +39,14 @@ struct ContentView: View {
         RoundedRectangle(cornerRadius: 50)
             .fill(.white)
             .frame(width: 150, height: 5)
-            .keyframeAnimator(initialValue: indicatorVOffset, repeating: true, content: { view, value in
-                view.offset(y: value)
-            }, keyframes: { value in
-                KeyframeTrack {
+            .keyframeAnimator(
+                initialValue: indicatorVOffset,
+                trigger: isAnimating,
+                content: { view, value in
+                    view.offset(y: value)
+                },
+                keyframes: { value in
+                    KeyframeTrack {
                     CubicKeyframe(-10, duration: 0.5)
                     CubicKeyframe(0, duration: 1.5)
                 }
