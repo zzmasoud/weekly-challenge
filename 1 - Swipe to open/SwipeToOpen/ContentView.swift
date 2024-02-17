@@ -33,8 +33,9 @@ struct ContentView: View {
     @State var animation = Animation()
         
     var body: some View {
-        return VStack {
+        VStack(spacing: 0) {
             Spacer()
+            edgeButtons
             content
                 .padding(10)
                 .onTapGesture {
@@ -44,6 +45,37 @@ struct ContentView: View {
         }
         .frame(maxWidth: .infinity)
         .background(.gray)
+    }
+    
+    private var edgeButtons: some View {
+        HStack {
+            Button(action: {}, label: {
+                Circle()
+                    .fill(.black.opacity(0.1))
+                    .overlay {
+                        Image(systemName: "flashlight.off.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .tint(.white)
+                            .padding(14)
+                    }
+            })
+
+            Spacer()
+            Button(action: {}, label: {
+                Circle()
+                    .fill(.black.opacity(0.1))
+                    .overlay {
+                        Image(systemName: "camera.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .tint(.white)
+                            .padding(14)
+                    }
+            })
+        }
+        .frame(height: 54)
+        .padding(.horizontal)
     }
     
     private var content: some View {
