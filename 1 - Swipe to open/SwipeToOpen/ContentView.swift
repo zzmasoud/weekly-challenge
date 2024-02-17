@@ -35,16 +35,25 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
+            bottomView
+            
+        }
+        .frame(maxWidth: .infinity)
+        .background(Gradient(stops: [
+            .init(color: Color(#colorLiteral(red: 0.9533236623, green: 0.5445828438, blue: 0.475235939, alpha: 1)), location: 0),
+            .init(color: Color(#colorLiteral(red: 0.7124326825, green: 0.2409839332, blue: 0.1112191007, alpha: 1)), location: 1)
+        ]))
+    }
+    
+    private var bottomView: some View {
+        Group {
             edgeButtons
-            content
+            lockScreenButton
                 .padding(10)
                 .onTapGesture {
                     animation.isAnimating.toggle()
                 }
-            Spacer()
         }
-        .frame(maxWidth: .infinity)
-        .background(.gray)
     }
     
     private var edgeButtons: some View {
@@ -78,7 +87,7 @@ struct ContentView: View {
         .padding(.horizontal)
     }
     
-    private var content: some View {
+    private var lockScreenButton: some View {
         VStack(spacing: 4) {
             text
             indicator
