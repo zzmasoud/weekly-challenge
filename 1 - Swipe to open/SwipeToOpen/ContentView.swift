@@ -67,8 +67,8 @@ struct ContentView: View {
                 },
                 keyframes: { config in
                     KeyframeTrack(\.verticalOffset) {
-                        CubicKeyframe(-config.verticalOffsetDelta * 3/4, duration: 0.5)
-                        CubicKeyframe(-config.verticalOffsetDelta, duration: 0.5)
+                        CubicKeyframe(-config.verticalOffsetDelta * 3/4, duration: animation.textDuration)
+                        CubicKeyframe(-config.verticalOffsetDelta, duration: animation.textDuration)
                     }
                     KeyframeTrack(\.opacity) {
                         CubicKeyframe(0.5, duration: animation.textDuration)
